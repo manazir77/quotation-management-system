@@ -1,0 +1,110 @@
+@extends('layouts.app')
+
+@section('title', 'Edit Customer - Quotation Management System')
+
+@section('breadcrumb')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('customers.index') }}">Customers</a></li>
+        <li class="breadcrumb-item active">Edit Customer</li>
+    </ol>
+</nav>
+@endsection
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pencil me-2"></i>Edit Customer
+            </div>
+            <div class="card-body">
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('customers.update', $customer) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Customer Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                                   id="name" name="name" value="{{ old('name', $customer->name) }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="company" class="form-label">Company Name</label>
+                            <input type="text" class="form-control @error('company') is-invalid @enderror" 
+                                   id="company" name="company" value="{{ old('company', $customer->company) }}">
+                            @error('company')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                   id="email" name="email" value="{{ old('email', $customer->email) }}">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror" 
+                                   id="phone" name="phone" value="{{ old('phone', $customer->phone) }}">
+                            @error('phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gst_number" class="form-label">GST Number</label>
+                        <input type="text" class="form-control @error('gst_number') is-invalid @enderror" 
+                               id="gst_number" name="gst_number" value="{{ old('gst_number', $customer->gst_number) }}" 
+                               placeholder="e.g., 22AAAAA0000A1Z5">
+                        @error('gst_number')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control @error('address') is-invalid @enderror" 
+                                  id="address" name="address" rows="3">{{ old('address', $customer->address) }}</textarea>
+                        @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg me-2"></i>Update Customer
+                        </button>
+                        <a href="{{ route('customers.index') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-lg me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
